@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 06, 2019 at 09:09 AM
+-- Generation Time: Dec 07, 2019 at 08:36 PM
 -- Server version: 5.5.25a
 -- PHP Version: 5.4.4
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `phone` varchar(25) NOT NULL,
   `email` varchar(150) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `clients`
@@ -41,7 +41,32 @@ CREATE TABLE IF NOT EXISTS `clients` (
 
 INSERT INTO `clients` (`id`, `first_nama`, `last_name`, `phone`, `email`) VALUES
 (1, 'Wahyu', 'Devi', '121312321', 'wahyudevi@gmail.com'),
-(3, 'alizaa', 'rizky', '2563201', 'aliza@gmail.com');
+(4, 'Aliza', 'Rizqi', '727679798', 'Aliza@gmail.com'),
+(5, 'Wulan', 'Damayanti', '88687608', 'Wulan@gmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reservation`
+--
+
+CREATE TABLE IF NOT EXISTS `reservation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `room_number` int(11) NOT NULL,
+  `date_in` date NOT NULL,
+  `date_out` date NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_client_id` (`client_id`),
+  KEY `fk_room_number` (`room_number`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `reservation`
+--
+
+INSERT INTO `reservation` (`id`, `client_id`, `room_number`, `date_in`, `date_out`) VALUES
+(4, 1, 1, '2019-12-04', '2019-12-05');
 
 -- --------------------------------------------------------
 
@@ -64,32 +89,7 @@ CREATE TABLE IF NOT EXISTS `rooms` (
 INSERT INTO `rooms` (`r_number`, `type`, `phone`, `reserved`) VALUES
 (1, 1, '6784948', 'No'),
 (2, 2, '08753839123', 'Yes'),
-(3, 3, '73576152736', 'No'),
-(4, 5, '48763476187', 'No');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `type`
---
-
-CREATE TABLE IF NOT EXISTS `type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `label` varchar(100) NOT NULL,
-  `price` varchar(15) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
-
---
--- Dumping data for table `type`
---
-
-INSERT INTO `type` (`id`, `label`, `price`) VALUES
-(1, 'single', '100'),
-(2, 'double', '200'),
-(3, 'triple', '300'),
-(4, 'family', '400'),
-(5, 'suite', '750');
+(4, 1, '123456789', 'No');
 
 -- --------------------------------------------------------
 
@@ -110,6 +110,17 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`id`, `username`, `password`) VALUES
 (1, 'testuser', 'pass');
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `reservation`
+--
+ALTER TABLE `reservation`
+  ADD CONSTRAINT `fk_client_id` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_room_number` FOREIGN KEY (`room_number`) REFERENCES `rooms` (`r_number`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
